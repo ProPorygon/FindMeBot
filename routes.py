@@ -54,7 +54,7 @@ def save_image(user, url):
     data = BytesIO(response.content)
 
     binary = psycopg2.Binary(response.content)
-    cur.execute("INSERT INTO userimages(id, image) VALUES (%s, %s)", (user,binary))
+    cur.execute("INSERT INTO userimage(id, image) VALUES (%s, %s)", (user,binary))
 
     print "success"
 
