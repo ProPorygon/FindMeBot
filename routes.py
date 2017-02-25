@@ -1,4 +1,4 @@
-from bottle import route, request
+from bottle import route, request, response
 import logging
 import json
 import psycopg2
@@ -42,6 +42,21 @@ def defaut():
     print message
     print user
     print attachment_type
+
+@route('/image/<id>')
+def get_image(id):
+    cur = con.cursor()
+
+    cur.execute("SELECT (image) FROM userimage WHERE id = %s", id)
+    result = cur.fetchone()
+    image = Image.frombytes(result)
+    img_io = BytesIO()
+    image.save(img_io, 'JPEG', quality=70)
+    img_io.seek(0)
+    bytes = img_io.read()
+    response.set_header('Content-type', 'image/jpeg')
+    return bytes
+
 
 '''
 Function to associate a user id with an image, storing both in postgres
