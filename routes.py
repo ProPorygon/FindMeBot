@@ -48,7 +48,7 @@ Function to associate a user name with an image
 TODO: Determine how to store image
 '''
 def save_image(user, url):
-    curs = con.cursor()
+    cur = con.cursor()
 
     response = requests.get(url)
     data = BytesIO(response.content)
