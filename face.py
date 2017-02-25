@@ -2,18 +2,18 @@ import cognitive_face as CF
 import webbrowser
 
 
-#Return URLs, option to open in a new window, of top x recognized faces 
+#Return URLs, option to open in a new window, of top x recognized faces
 def findURLs(query_face,face_urls,api_key="32b1306905ff4a7dba1502d45876a7cf",number=2,open_picture=False):
-	
+
 	"""
 	Params:
 		query_face: URL of the face we are trying to match. Probably want to run this with all the faces in the group.
-		face_urls: List of URLs of all the faces in our sample. 
+		face_urls: List of URLs of all the faces in our sample.
 		api_key: API key for our calls. Set default to Ziwei's free trial key, but please use your own
 		number: Number of faces you want to match- the lower the better tbh
 		open_picture: True if you want to open your matched faces in another window. False otherwise.
 	Returns:
-		indices- indices of most matched faces 
+		indices- indices of most matched faces
 		confidence- confidence of those indices
 
 	"""
@@ -62,4 +62,4 @@ def main():
 	ind, conf = findURLs(query_url,face_urls)
 	print(ind)
 
-main()
+#main()

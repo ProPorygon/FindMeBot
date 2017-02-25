@@ -7,6 +7,7 @@ from urlparse import urlparse
 import requests
 from PIL import Image
 from io import BytesIO
+from face import findURLs
 
 url = urlparse(os.environ['DATABASE_URL'])
 dbname = url.path[1:]
@@ -37,6 +38,11 @@ def defaut():
     print attachment_type
 
 def match_image(url):
+    con = db_connect()
+    cur = con.cursor()
+    cur.execute("SELECT (id) FROM userimage")
+    urls = ["https://findmechatbot.herokuapp.com/image/{}.jpg".format(i) for i[0] in cur]
+    print urls
     return
 
 @route('/image/<id>.jpg')
