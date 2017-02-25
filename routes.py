@@ -27,7 +27,8 @@ def defaut():
     if len(data["attachments"]) > 0:
         url = data["attachments"][0]["url"]
         attachment_type = data["attachments"][0]["type"]
-        match_image(url)
+        uid = match_image(url)
+        r = requests.post("https://api.groupme.com/v3/bots/post", data={'bot_id':os.environ['BOT_KEY'] 'text': str(uid)})
 
     if message.lower() == "this is me":
         save_image(user, url)
@@ -43,7 +44,9 @@ def match_image(url):
     cur.execute("SELECT (id) FROM userimage")
     urls = ["https://findmechatbot.herokuapp.com/image/{}.jpg".format(i[0]) for i in cur]
     print urls
-    return
+    indices, _ = findURLs(url, urls)
+    uid = cur[indices[0]]
+    return uid
 
 @route('/image/<id>.jpg')
 def get_image(id):
