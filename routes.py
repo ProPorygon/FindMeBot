@@ -27,6 +27,7 @@ def defaut():
         url = data["attachments"][0]["url"]
         attachment_type = data["attachments"][0]["type"]
 
+
     if message.lower() == "this is me":
         save_image(user, url)
 
@@ -35,7 +36,10 @@ def defaut():
     print user
     print attachment_type
 
-@route('/image/<id>')
+def match_image(url):
+
+
+@route('/image/<id>.jpg')
 def get_image(id):
     con = db_connect()
     cur = con.cursor()
