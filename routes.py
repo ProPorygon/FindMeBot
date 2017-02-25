@@ -35,16 +35,18 @@ def defaut():
     if message.lower() == "this is me":
         save_image(user, url)
 
-    print url
+    #print url
     print message
     print user
-    print attachment_type
+    #print attachment_type
 
 def get_name_from_uid(uid, groupid):
     response = requests.get("https://api.groupme.com/v3/groups/{}?token={}".format(groupid,os.environ['GROUPME_KEY']))
     print response.text
+    print uid
     group_data = json.loads(response.text)
     for item in group_data['response']['members']:
+        print item['user_id']
         if item["user_id"] == uid:
             return item['nickname']
     return ""
