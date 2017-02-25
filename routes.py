@@ -42,7 +42,6 @@ def get_image(id):
 
     cur.execute("SELECT (image) FROM userimage WHERE id = %s", (int(id),))
     result = cur.fetchone()
-    print result
     img_io = BytesIO(result[0])
     bytes = img_io.read()
     response.set_header('Content-type', 'image/jpeg')
