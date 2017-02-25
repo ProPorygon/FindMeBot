@@ -50,7 +50,8 @@ def get_image(id):
     cur.execute("SELECT (image) FROM userimage WHERE id = %s", (int(id),))
     result = cur.fetchone()
     #image = Image.open(result)
-    img_io = BytesIO(result)
+    print result
+    img_io = BytesIO(result[0])
     #image.save(img_io, 'JPEG', quality=70)
     #img_io.seek(0)
     bytes = img_io.read()
