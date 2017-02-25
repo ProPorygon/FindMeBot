@@ -14,7 +14,17 @@ def defaut():
         url = data["attachments"][0]["url"]
         attachment_type = data["attachments"][0]["type"]
 
+    if message.split(" ")[,1] == "This is":
+        save_image(message.split(" ")[2], url)
+
     print url
     print message
     print user
     print attachment_type
+
+'''
+Function to associate a user name with an image
+TODO: Determine how to store image
+'''
+def save_image(user, url):
+    return
