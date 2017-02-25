@@ -25,26 +25,23 @@ def defaut():
     groupid = data["group_id"]
     url = ""
     attachment_type = ""
-    if len(data["attachments"]) > 0:
+    if len(data["attachments"]) > 0 and data["attachments"][0]["type"] == "image":
         url = data["attachments"][0]["url"]
         attachment_type = data["attachments"][0]["type"]
         uid = match_image(url)
         nickname = get_name_from_uid(uid, groupid)
-        r = requests.post("https://api.groupme.com/v3/bots/post", data={'bot_id':os.environ['BOT_KEY'], 'text': '@' + nickname, 'attachments': [{"type": "mentions", "user_ids":[uid], "loci": [[0, len(nickname)]]}]})
+        r = requests.post("https://api.groupme.com/v3/bots/post", data={'bot_id':os.environ['BOT_KEY'], 'text': nickname, 'attachments': [{"type": "mentions", "user_ids":[uid], "loci": [[0, len(nickname)]]}]})
 
     if message.lower() == "this is me":
         save_image(user, url)
 
-    print message
     print user
+    print message
 
 def get_name_from_uid(uid, groupid):
     response = requests.get("https://api.groupme.com/v3/groups/{}?token={}".format(groupid,os.environ['GROUPME_KEY']))
-    print response.text
-    print "uid: {}".format(uid)
     group_data = json.loads(response.text)
     for item in group_data['response']['members']:
-        print item['user_id']
         if item["user_id"] == str(uid):
             return item['nickname']
     return ""
@@ -87,7 +84,6 @@ def save_image(user, url):
     cur.execute("INSERT INTO userimage(id, image) VALUES (%s, %s)", (user,binary))
     con.commit()
 
-    print "success"
     con.close()
 
     return
