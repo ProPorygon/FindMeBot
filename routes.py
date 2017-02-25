@@ -67,6 +67,7 @@ def match_image(url):
     urls = ["https://findmechatbot.herokuapp.com/image/{}.jpg".format(i[0]) for i in results]
     indices, _ = findURLs(url, urls, os.environ['FACE_KEY'])
     uid = results[indices[0]]
+    con.close()
     return uid[0]
 
 @route('/image/<id>.jpg')
