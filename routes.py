@@ -30,6 +30,7 @@ def defaut():
     attachment_type = ""
 
     if message.lower() == "this is me" and len(data["attachments"]) > 0 and data["attachments"][0]["type"] == "image":
+        url = data["attachments"][0]["url"]
         save_image(user, url)
 
     elif len(data["attachments"]) > 0 and data["attachments"][0]["type"] == "image":
