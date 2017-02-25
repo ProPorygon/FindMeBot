@@ -18,6 +18,9 @@ port = url.port
 
 @route('/', method='POST')
 def defaut():
+    """
+    Handles incoming connections to the bot
+    """
     json_message = request.body.read()
     data = json.loads(json_message)
     message = data["text"]
@@ -41,6 +44,9 @@ def defaut():
     print message
 
 def get_name_from_uid(uid, groupid):
+    """
+    Returns a user nickname for a uid in a particular group
+    """
     response = requests.get("https://api.groupme.com/v3/groups/{}?token={}".format(groupid,os.environ['GROUPME_KEY']))
     group_data = json.loads(response.text)
     for item in group_data['response']['members']:
@@ -49,6 +55,9 @@ def get_name_from_uid(uid, groupid):
     return ""
 
 def match_image(url):
+    """
+    Finds the matching uid for the image linked by the url
+    """
     con = db_connect()
     cur = con.cursor()
     cur.execute("SELECT (id) FROM userimage")
@@ -60,6 +69,9 @@ def match_image(url):
 
 @route('/image/<id>.jpg')
 def get_image(id):
+    """
+    Loads an image from postgres to the url associated with the user's id
+    """
     con = db_connect()
     cur = con.cursor()
 
@@ -72,10 +84,11 @@ def get_image(id):
 
     con.close()
 
-'''
-Function to associate a user id with an image, storing both in postgres
-'''
+
 def save_image(user, url):
+    """
+    Function to associate a user id with an image, storing both in postgres
+    """
     con = db_connect()
     cur = con.cursor()
 
@@ -90,7 +103,11 @@ def save_image(user, url):
 
     return
 
+
 def db_connect():
+    """
+    Initialize connection to database
+    """
     con = psycopg2.connect(
         dbname = dbname,
         user = user,
