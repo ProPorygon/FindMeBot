@@ -37,7 +37,7 @@ def defaut():
     print attachment_type
 
 def match_image(url):
-
+    return
 
 @route('/image/<id>.jpg')
 def get_image(id):
