@@ -3,7 +3,7 @@ import logging
 import json
 import psycopg2
 import os
-import urllib.parse as urlparse
+from urlparse import urlparse
 import requests
 from PIL import Image
 from io import BytesIO
