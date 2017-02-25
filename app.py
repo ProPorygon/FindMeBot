@@ -1,22 +1,19 @@
 import bottle
 import os
-import sys
+from os import environ
 
 # routes contains the HTTP handlers for our server and must be imported.
 import routes
 
 def wsgi_app():
-    """Returns the application to make available through wfastcgi. This is used
-    when the site is published to Microsoft Azure."""
     return bottle.default_app()
 
 if __name__ == '__main__':
-    PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
-    HOST = os.environ.get('SERVER_HOST', 'localhost')
+    HOST = "0.0.0.0"
     try:
-        PORT = int(os.environ.get('SERVER_PORT', '5555'))
+        PORT = int(os.environ.get('PORT', '5000'))
     except ValueError:
         PORT = 5555
 
     # Starts a local test server.
-    bottle.run(server='wsgiref', host=HOST, port=PORT)
+    bottle.run(server='gunicorn', host=HOST, port=PORT)
