@@ -8,8 +8,8 @@ def defaut():
     data = json.loads(json_message)
     message = data["text"]
     user = data["user_id"]
-    url = data["attachments"].get("url")
-    attachment_type = data["attachments"].get("type")
+    url = data["attachments"][0].get("url")
+    attachment_type = data["attachments"][0].get("type")
     print url
     print message
     print user
