@@ -28,7 +28,7 @@ def defaut():
         url = data["attachments"][0]["url"]
         attachment_type = data["attachments"][0]["type"]
         uid = match_image(url)
-        r = requests.post("https://api.groupme.com/v3/bots/post", data={'bot_id':os.environ['BOT_KEY'] 'text': str(uid)})
+        r = requests.post("https://api.groupme.com/v3/bots/post", data={'bot_id':os.environ['BOT_KEY'], 'text': str(uid)})
 
     if message.lower() == "this is me":
         save_image(user, url)
