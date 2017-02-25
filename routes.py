@@ -8,6 +8,21 @@ import requests
 from PIL import Image
 from io import BytesIO
 
+url = urlparse(os.environ['DATABSE_URL'])
+dbname = url.path[1:]
+user = url.username
+password = url.password
+host = url.hostname
+port = url.port
+
+con = psycopg2.connect(
+    dbname = dbname,
+    user = user,
+    password = password,
+    host = host,
+    port = port
+)
+
 @route('/', method='POST')
 def defaut():
     json_message = request.body.read()
@@ -33,21 +48,6 @@ Function to associate a user name with an image
 TODO: Determine how to store image
 '''
 def save_image(user, url):
-    url = urlparse(os.environ['DATABSE_URL'])
-    dbname = url.path[1:]
-    user = url.username
-    password = url.password
-    host = url.hostname
-    port = url.port
-
-    con = psycopg2.connect(
-        dbname = dbname,
-        user = user,
-        password = password,
-        host = host,
-        port = port
-    )
-
     curs = con.cursor()
 
     response = requests.get(url)
