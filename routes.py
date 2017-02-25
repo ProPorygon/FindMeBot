@@ -3,7 +3,7 @@ import logging
 import json
 import psycopg2
 import os
-import urllib.parse as urlparse
+from urlparse import urlparse
 import requests
 from PIL import Image
 from io import BytesIO
@@ -33,7 +33,7 @@ Function to associate a user name with an image
 TODO: Determine how to store image
 '''
 def save_image(user, url):
-    url = urlparse.urlparse(os.environ['DATABSE_URL'])
+    url = urlparse(os.environ['DATABSE_URL'])
     dbname = url.path[1:]
     user = url.username
     password = url.password
@@ -55,5 +55,7 @@ def save_image(user, url):
 
     binary = psycopg2.Binary(data)
     cur.execute("INSERT INTO userimages(id, image) VALUES (%s, %s)", user, (binary,))
+
+    print "success"
 
     return
