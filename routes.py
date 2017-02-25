@@ -1,9 +1,11 @@
 from bottle import route, request
 import logging
+import json
 
 @route('/', method='POST')
 def defaut():
-    data = request.body.read()
+    json_message = request.body.read()
+    data = json.loads(json_message)
     message = data["text"]
     user = data["user_id"]
     url = data["attachments"].get("url")
