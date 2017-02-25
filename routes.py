@@ -42,7 +42,7 @@ def defaut():
 
 def get_name_from_uid(uid, groupid):
     response = requests.get("https://api.groupme.com/v3/groups/{}?token={}".format(groupid,os.environ['GROUPME_KEY']))
-    print response
+    print response.text
     group_data = json.loads(response.text)
     for item in group_data['members']:
         if item["user_id"] == uid:
