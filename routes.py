@@ -4,4 +4,9 @@ import logging
 @route('/', method='POST')
 def defaut():
     data = request.body.read()
-    print data
+    url = data["url"]
+    message = data["text"]
+    user = data["user_id"]
+    print url
+    print message
+    print user
