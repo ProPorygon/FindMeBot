@@ -44,7 +44,7 @@ def get_name_from_uid(uid, groupid):
     response = requests.get("https://api.groupme.com/v3/groups/{}?token={}".format(groupid,os.environ['GROUPME_KEY']))
     print response.text
     group_data = json.loads(response.text)
-    for item in group_data['members']:
+    for item in group_data['response']['members']:
         if item["user_id"] == uid:
             return item['nickname']
     return ""
