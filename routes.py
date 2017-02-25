@@ -11,7 +11,10 @@ def defaut():
     if len(data["attachments"]) > 0:
         url = data["attachments"][0]["url"]
         attachment_type = data["attachments"][0]["type"]
-    print url
+
+    if url:
+        print url
     print message
     print user
-    print attachment_type
+    if attachment_type:
+        print attachment_type
