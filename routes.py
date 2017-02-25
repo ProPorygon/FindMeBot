@@ -41,7 +41,7 @@ def defaut():
     print attachment_type
 
 def get_name_from_uid(uid, groupid):
-    response = requests.post("https://api.groupme.com/v3/groups/{}?token={}".format(groupid,os.environ['GROUPME_KEY']))
+    response = requests.get("https://api.groupme.com/v3/groups/{}?token={}".format(groupid,os.environ['GROUPME_KEY']))
     print response
     group_data = json.loads(response.text)
     for item in group_data['members']:
