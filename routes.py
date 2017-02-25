@@ -22,13 +22,19 @@ def defaut():
     data = json.loads(json_message)
     message = data["text"]
     user = data["user_id"]
+    groupid = data["group_id"]
     url = ""
     attachment_type = ""
     if len(data["attachments"]) > 0:
         url = data["attachments"][0]["url"]
         attachment_type = data["attachments"][0]["type"]
         uid = match_image(url)
-        r = requests.post("https://api.groupme.com/v3/bots/post", data={'bot_id':os.environ['BOT_KEY'], 'text': str(uid)})
+        group_data = requests.get("https://api.groupme.com/v3/groups?token={}/groups/{}".format(os.environ['GROUPME_KEY'],groupid))
+        nickname = ""
+        for item in group_data['members']:
+            if item["user_id"] == uid:
+                nickname = item['nickname']
+        r = requests.post("https://api.groupme.com/v3/bots/post", data={'bot_id':os.environ['BOT_KEY'], 'text': nickname})
 
     if message.lower() == "this is me":
         save_image(user, url)
@@ -37,6 +43,9 @@ def defaut():
     print message
     print user
     print attachment_type
+
+def get_name_from_uid(uid):
+
 
 def match_image(url):
     con = db_connect()
@@ -47,7 +56,7 @@ def match_image(url):
     print urls
     indices, _ = findURLs(url, urls)
     uid = results[indices[0]]
-    return uid
+    return uid[0]
 
 @route('/image/<id>.jpg')
 def get_image(id):
