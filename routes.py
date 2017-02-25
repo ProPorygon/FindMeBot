@@ -15,14 +15,6 @@ password = url.password
 host = url.hostname
 port = url.port
 
-con = psycopg2.connect(
-    dbname = dbname,
-    user = user,
-    password = password,
-    host = host,
-    port = port
-)
-
 @route('/', method='POST')
 def defaut():
     json_message = request.body.read()
@@ -45,23 +37,24 @@ def defaut():
 
 @route('/image/<id>')
 def get_image(id):
+    con = db_connect()
     cur = con.cursor()
 
-    cur.execute("SELECT (image) FROM userimage WHERE id = %s", id)
+    cur.execute("SELECT (image) FROM userimage WHERE id = %s", (int(id),))
     result = cur.fetchone()
-    image = Image.frombytes(result)
-    img_io = BytesIO()
-    image.save(img_io, 'JPEG', quality=70)
-    img_io.seek(0)
+    print result
+    img_io = BytesIO(result[0])
     bytes = img_io.read()
     response.set_header('Content-type', 'image/jpeg')
     return bytes
 
+    con.close()
 
 '''
 Function to associate a user id with an image, storing both in postgres
 '''
 def save_image(user, url):
+    con = db_connect()
     cur = con.cursor()
 
     response = requests.get(url)
@@ -72,5 +65,17 @@ def save_image(user, url):
     con.commit()
 
     print "success"
+    con.close()
 
     return
+
+def db_connect():
+    con = psycopg2.connect(
+        dbname = dbname,
+        user = user,
+        password = password,
+        host = host,
+        port = port
+    )
+
+    return con
