@@ -8,7 +8,7 @@ import requests
 from PIL import Image
 from io import BytesIO
 
-url = urlparse(os.environ['DATABSE_URL'])
+url = urlparse(os.environ['DATABASE_URL'])
 dbname = url.path[1:]
 user = url.username
 password = url.password
