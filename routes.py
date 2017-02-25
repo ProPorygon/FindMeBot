@@ -28,6 +28,10 @@ def defaut():
     groupid = data["group_id"]
     url = ""
     attachment_type = ""
+
+    if message.lower() == "this is me" and len(data["attachments"]) > 0 and data["attachments"][0]["type"] == "image":
+        save_image(user, url)
+
     if len(data["attachments"]) > 0 and data["attachments"][0]["type"] == "image":
         url = data["attachments"][0]["url"]
         attachment_type = data["attachments"][0]["type"]
@@ -36,8 +40,6 @@ def defaut():
         attachments = [{"type": "mentions", "user_ids":[str(uid)], "loci": [[0, len(nickname)]]}]
         r = requests.post("https://api.groupme.com/v3/bots/post", data={'bot_id':os.environ['BOT_KEY'], 'text': nickname, 'attachments': attachments})
 
-    if message.lower() == "this is me":
-        save_image(user, url)
 
     print data
     print user
