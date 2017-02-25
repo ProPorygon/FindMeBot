@@ -44,7 +44,7 @@ def get_name_from_uid(uid, groupid):
     group_data = requests.get("https://api.groupme.com/v3/groups?token={}/groups/{}".format(os.environ['GROUPME_KEY'],groupid))
     for item in group_data['members']:
         if item["user_id"] == uid:
-            return nickname = item['nickname']
+            return item['nickname']
     return ""
 
 def match_image(url):
