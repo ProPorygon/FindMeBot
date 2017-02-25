@@ -2,18 +2,18 @@ import cognitive_face as CF
 import webbrowser
 
 
-#Return URLs, option to open in a new window, of top x recognized faces
-def findURLs(query_face,face_urls,api_key="32b1306905ff4a7dba1502d45876a7cf",number=2,open_picture=False):
-
+#Return URLs, option to open in a new window, of top x recognized faces 
+def findURLs(query_face,face_urls,api_key,number=2,open_picture=False):
+	
 	"""
 	Params:
 		query_face: URL of the face we are trying to match. Probably want to run this with all the faces in the group.
-		face_urls: List of URLs of all the faces in our sample.
+		face_urls: List of URLs of all the faces in our sample. 
 		api_key: API key for our calls. Set default to Ziwei's free trial key, but please use your own
 		number: Number of faces you want to match- the lower the better tbh
 		open_picture: True if you want to open your matched faces in another window. False otherwise.
 	Returns:
-		indices- indices of most matched faces
+		indices- indices of most matched faces 
 		confidence- confidence of those indices
 
 	"""
@@ -22,6 +22,7 @@ def findURLs(query_face,face_urls,api_key="32b1306905ff4a7dba1502d45876a7cf",num
 	CF.Key.set(KEY)
 
 	#URL for the target face
+
 	result_query = CF.face.detect(query_face,True,False,'age,gender,smile')
 
 	#URLs for the added faces
@@ -55,11 +56,41 @@ def findURLs(query_face,face_urls,api_key="32b1306905ff4a7dba1502d45876a7cf",num
 			webbrowser.open_new(url)
 	return indices,confidence
 
+#
+def matchFace(query_faces, face_urls,api_key):
+
+	"""
+		Returns an array containing the most likely face for each face in the face urls, stored as an index.
+		Params
+		query_faces: array of URLS for source faces to match 
+		face_urls: faces submitted to the groupchat. Will match each with a query face.
+		api_key: API key for the arrays. Use the one that's 10 calls per second.
+
+		Returns:
+		mostlikely: Array of indices of query_face that corresponds to the matched face.
+
+	"""
+	mostlikely = [0 for i in range(len(face_urls))]
+	highestconf = [0 for i in range(len(face_urls))]
+	for query_face in query_faces:
+		ind,conf = findURLs(query_face,face_urls,api_key,len(face_urls),False)
+		for i in range(len(ind)):
+			if conf[i] > highestconf[i]:
+				mostlikely[ind[i]] = query_faces.index(query_face)
+				highestconf[ind[i]] = conf[ind[i]]
+	return mostlikely
+
 def main():
-	query_url = 'http://i.imgur.com/XuvapFY.jpg'
-	face_urls = ["http://i.imgur.com/0FBIdSN.jpg","http://i.imgur.com/cVFo6fc.jpg","http://i.imgur.com/AlG7wEC.jpg","http://i.imgur.com/t1SofqS.jpg","http://i.imgur.com/OrK5Hob.jpg"]
+	query_urls = ['http://i.imgur.com/XuvapFY.jpg','http://i.imgur.com/AW2x9Z6.png']
+	face_urls = ["http://i.imgur.com/0FBIdSN.jpg","http://i.imgur.com/t1SofqS.jpg","http://i.imgur.com/cVFo6fc.jpg","http://i.imgur.com/AlG7wEC.jpg","http://i.imgur.com/OrK5Hob.jpg"]
 
-	ind, conf = findURLs(query_url,face_urls)
-	print(ind)
+	api_key = "bb9ec8fa29aa4c95b2952db12635cd1e"
+	matched_indices = matchFace(query_urls,face_urls,api_key)
+	print(matched_indices)
+	for face in matched_indices:
+		if (face == 0):
+			print "Ziwei"
+		else:
+			print "Kevin"
+main()
 
-#main()
