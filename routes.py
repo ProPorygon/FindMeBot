@@ -31,6 +31,7 @@ def defaut():
         uid = match_image(url)
         nickname = get_name_from_uid(uid, groupid)
         r = requests.post("https://api.groupme.com/v3/bots/post", data={'bot_id':os.environ['BOT_KEY'], 'text': nickname, 'attachments': [{"type": "mentions", "user_ids":[uid], "loci": [[0, len(nickname)]]}]})
+        print r.text
 
     if message.lower() == "this is me":
         save_image(user, url)
