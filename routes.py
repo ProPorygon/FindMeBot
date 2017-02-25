@@ -47,7 +47,7 @@ def defaut():
 def get_image(id):
     cur = con.cursor()
 
-    cur.execute("SELECT (image) FROM userimage WHERE id = %s", int(id))
+    cur.execute("SELECT (image) FROM userimage WHERE id = %s", (int(id),))
     result = cur.fetchone()
     image = Image.frombytes(result)
     img_io = BytesIO()
