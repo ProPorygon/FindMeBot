@@ -3,3 +3,5 @@ gunicorn
 psycopg2
 requests
 pillow
+cognitive_face
+webbrowser
