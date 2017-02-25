@@ -33,7 +33,7 @@ Function to associate a user name with an image
 TODO: Determine how to store image
 '''
 def save_image(user, url):
-    url = urlparse.urlparse(os.environ['DATABSE_URL'])
+    url = urlparse(os.environ['DATABSE_URL'])
     dbname = url.path[1:]
     user = url.username
     password = url.password
