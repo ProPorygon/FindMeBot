@@ -44,8 +44,7 @@ def defaut():
     print attachment_type
 
 '''
-Function to associate a user name with an image
-TODO: Determine how to store image
+Function to associate a user id with an image, storing both in postgres
 '''
 def save_image(user, url):
     cur = con.cursor()
@@ -55,6 +54,7 @@ def save_image(user, url):
 
     binary = psycopg2.Binary(response.content)
     cur.execute("INSERT INTO userimage(id, image) VALUES (%s, %s)", (user,binary))
+    con.commit()
 
     print "success"
 
