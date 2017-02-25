@@ -42,10 +42,11 @@ def match_image(url):
     con = db_connect()
     cur = con.cursor()
     cur.execute("SELECT (id) FROM userimage")
-    urls = ["https://findmechatbot.herokuapp.com/image/{}.jpg".format(i[0]) for i in cur]
+    results = cur.fetchall()
+    urls = ["https://findmechatbot.herokuapp.com/image/{}.jpg".format(i[0]) for i in results]
     print urls
     indices, _ = findURLs(url, urls)
-    uid = cur[indices[0]]
+    uid = results[indices[0]]
     return uid
 
 @route('/image/<id>.jpg')
