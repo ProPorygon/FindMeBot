@@ -1,5 +1,6 @@
-from bottle import route
+from bottle import route, request
 
-@route('/')
+@route('/', type=POST)
 def defaut():
-    return "Hello World"
+    data = request.body.read()
+    print data
