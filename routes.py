@@ -53,7 +53,7 @@ def match_image(url):
     cur.execute("SELECT (id) FROM userimage")
     results = cur.fetchall()
     urls = ["https://findmechatbot.herokuapp.com/image/{}.jpg".format(i[0]) for i in results]
-    indices, _ = findURLs(url, urls)
+    indices, _ = findURLs(url, urls, os.environ['FACE_KEY'])
     uid = results[indices[0]]
     return uid[0]
 
