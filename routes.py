@@ -29,12 +29,8 @@ def defaut():
         url = data["attachments"][0]["url"]
         attachment_type = data["attachments"][0]["type"]
         uid = match_image(url)
-        group_data = requests.get("https://api.groupme.com/v3/groups?token={}/groups/{}".format(os.environ['GROUPME_KEY'],groupid))
-        nickname = ""
-        for item in group_data['members']:
-            if item["user_id"] == uid:
-                nickname = item['nickname']
-        r = requests.post("https://api.groupme.com/v3/bots/post", data={'bot_id':os.environ['BOT_KEY'], 'text': nickname})
+        nickname = get_name_from_uid(uid, groupid)
+        r = requests.post("https://api.groupme.com/v3/bots/post", data={'bot_id':os.environ['BOT_KEY'], 'text': '@' + nickname})
 
     if message.lower() == "this is me":
         save_image(user, url)
@@ -44,8 +40,12 @@ def defaut():
     print user
     print attachment_type
 
-def get_name_from_uid(uid):
-
+def get_name_from_uid(uid, groupid):
+    group_data = requests.get("https://api.groupme.com/v3/groups?token={}/groups/{}".format(os.environ['GROUPME_KEY'],groupid))
+    for item in group_data['members']:
+        if item["user_id"] == uid:
+            return nickname = item['nickname']
+    return ""
 
 def match_image(url):
     con = db_connect()
