@@ -35,10 +35,8 @@ def defaut():
     if message.lower() == "this is me":
         save_image(user, url)
 
-    #print url
     print message
     print user
-    #print attachment_type
 
 def get_name_from_uid(uid, groupid):
     response = requests.get("https://api.groupme.com/v3/groups/{}?token={}".format(groupid,os.environ['GROUPME_KEY']))
@@ -47,7 +45,7 @@ def get_name_from_uid(uid, groupid):
     group_data = json.loads(response.text)
     for item in group_data['response']['members']:
         print item['user_id']
-        if item["user_id"] == uid:
+        if item["user_id"] == str(uid):
             return item['nickname']
     return ""
 
@@ -57,7 +55,6 @@ def match_image(url):
     cur.execute("SELECT (id) FROM userimage")
     results = cur.fetchall()
     urls = ["https://findmechatbot.herokuapp.com/image/{}.jpg".format(i[0]) for i in results]
-    print urls
     indices, _ = findURLs(url, urls)
     uid = results[indices[0]]
     return uid[0]
