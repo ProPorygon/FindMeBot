@@ -3,6 +3,7 @@
 
 ## Short Links to Important Resources:
 * docs: https://www.microsoft.com/cognitive-services/en-us/face-api
+* https://dev.groupme.com/docs/v3
 * bugs: Report bugs to krenner2@illinois.edu or ziweiba2@illinois.edu
 * communcations: https://app.groupme.com/join_group/29262968/FpQAdO
 ## Testing
