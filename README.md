@@ -19,3 +19,6 @@ Alternatively, set up a local heroku server, and configure the heroku env file t
 Post a photo, along with "this is me", to store an image for yourself
 
 Post any photo, and the bot will repond with the nickname of the identified user
+
+### Contributor Guide
+Check out the [Contributors Guide](https://github.com/ProPorygon/FindMeBot/blob/master/contributing.md)
